@@ -1,5 +1,3 @@
-import * as Sequelize from 'sequelize';
-
 export default class PexPlugin {
   henta: any;
   roles: any;
@@ -12,9 +10,10 @@ export default class PexPlugin {
   async init(henta) {
     [this.roles, this.fromSlug] = await henta.util.loadEnts('config/pex.json');
 
+    const dbPlugin = henta.getPlugin('common/db');
     const usersPlugin = henta.getPlugin('common/users');
     usersPlugin.field('role', {
-      type: Sequelize.STRING(32),
+      type: dbPlugin.types.STRING(32),
       allowNull: false,
       defaultValue: 'user'
     });
